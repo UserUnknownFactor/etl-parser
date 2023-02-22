@@ -40,8 +40,8 @@ What is `ETL` and why is it a pain to work with? Consider `ETL` as a container, 
         "Intended Audience :: Information Technology"
     ],
     scripts=[
-        "bin/etl2pcap",
-        "bin/etl2xml"
+        "bin/etl2pcap.py",
+        "bin/etl2xml.py"
     ],
     install_requires=[
         'construct'

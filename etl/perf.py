@@ -7,6 +7,7 @@ But add timestamp of the event
 This an event driven log but without some of meta infos
 """
 
+import datetime
 from construct import Struct, Enum, Int64ul, Bytes, Int8ul, Container
 
 from etl.parsers.kernel.core import Mof, build_mof
@@ -38,6 +39,15 @@ class PerfInfo:
         :return: Timestamp associated with this event
         """
         return self.source.timestamp
+
+    def get_utc_timestamp(self) -> str:
+        """
+        :return: UTC Timestamp associated with this event
+        """
+        seconds, microseconds = divmod(self.source.timestamp, 1000000)
+        days, seconds = divmod(seconds, 86400)
+        dt = datetime.datetime(1601, 1, 1) + datetime.timedelta(days, seconds, microseconds)
+        return dt.utcnow().isoformat(sep=' ', timespec='milliseconds')
 
     def get_mof(self) -> Mof:
         """

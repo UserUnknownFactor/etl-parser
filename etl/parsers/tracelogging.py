@@ -43,10 +43,15 @@ class TagIn(Enum):
     COUNTEDANSISTRING = 23
     STRUCT = 24
     COUNTEDBINARY = 25
+    TYPEMASK = 31
 
     CCOUNT = 32
     VCCOUNT = 64
+    COUNTMASK = 96
+
     CHAIN = 128
+    UNKNOWN1 = 152
+    FLAGMASK = 224
 
 
 TlMetaDataField = Struct(
@@ -134,6 +139,8 @@ def read_field(stream, tag):
         return Guid.parse(stream.read_exact(16))
     elif tag & 0x1f == TagIn.SYSTEMTIME.value:
         return SystemTime.parse(stream.read_exact(16))
+    elif tag & TagIn.UNKNOWN1.value:
+        return stream.read_exact(16)
     else:
         raise TlUnhandledTag(tag)
 

@@ -70,13 +70,21 @@ if __name__ == "__main__":
     This is made with love by Airbus CERT Team.
     """)
 
-    parser.add_argument("--input", "-i",
-                        help="Input ETL file",
-                        type=str, default="", required=True)
-
-    parser.add_argument("--output", "-o",
-                        help="output pcap path",
-                        type=str, default="", required=True)
+    parser.add_argument("etlfile",
+                        help="Path of input ETL file",
+                        nargs=1,
+                        type=str)
+    parser.add_argument( "-o", "--output",
+                        help="Path of output PCAP file",
+                        type=str, default=None, required=False)
 
     args = parser.parse_args()
-    main(**vars(args))
+    etlfile = args.etlfile[0]
+    if not os.path.isfile(etlfile):
+        sys.exit("No ETL file specified or file does not exist.")
+
+    pcapfile = args.output
+    if not pcapfile:
+        pcapfile = os.path.join(os.path.dirname(etlfile), os.path.basename(etlfile).replace(".etl", '') + ".pcap")
+        print(f"Output file: {pcapfile}")
+    main(etlfile, pcapfile)

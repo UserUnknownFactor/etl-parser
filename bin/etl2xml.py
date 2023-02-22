@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import argparse
+import argparse, os, sys
 
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
+from xml.dom.minidom import parseString
 
 from construct import ListContainer, Struct, Container
 
@@ -173,7 +174,7 @@ class EtlFileLogger(IEtlFileObserver):
             mof = obj.get_mof()
             data = ElementTree.SubElement(self.xml_document, "event")
             data.set("type", "perfinfo")
-            data.set("timestamp", str(obj.get_timestamp()))
+            data.set("timestamp", obj.get_utc_timestamp())
             xml = ElementTree.SubElement(data, "mof")
             xml.set("provider", mof.__class__.__name__)
             log_kernel_type(mof, xml)
@@ -188,7 +189,7 @@ class EtlFileLogger(IEtlFileObserver):
         try:
             data = ElementTree.Element("event")
             data.set("type", "event")
-            data.set("timestamp", str(event.get_timestamp()))
+            data.set("timestamp", event.get_utc_timestamp())
             data.set("PID", str(event.get_process_id()))
             data.set("TID", str(event.get_thread_id()))
             data.append(log_tracelogging(event.parse_tracelogging()))
@@ -198,7 +199,7 @@ class EtlFileLogger(IEtlFileObserver):
                 etw = event.parse_etw()
                 data = ElementTree.SubElement(self.xml_document, "event")
                 data.set("type", "event")
-                data.set("timestamp", str(event.get_timestamp()))
+                data.set("timestamp", event.get_utc_timestamp())
                 data.set("PID", str(event.get_process_id()))
                 data.set("TID", str(event.get_thread_id()))
                 xml = ElementTree.SubElement(data, "etw")
@@ -218,6 +219,11 @@ class EtlFileLogger(IEtlFileObserver):
         except (EtwVersionNotFound, EventIdNotFound, GuidNotFound) as e:
             print(e)
 
+def prettify(elem: ElementTree):
+    """
+    Return a pretty-printed XML string for the Element. 
+    """
+    return parseString(ElementTree.tostring(elem, 'utf-8')).toprettyxml(indent="\t")
 
 def main(input: str, output: str):
     """
@@ -226,12 +232,13 @@ def main(input: str, output: str):
     :param output: output path
     """
     logger = EtlFileLogger()
-    with open(input, "rb") as input_file:
-        etl_reader = build_from_stream(input_file.read())
-        etl_reader.parse(logger)
-
-    with open(output, "wb") as output_file:
-        output_file.write(ElementTree.tostring(logger.xml_document))
+    if logger is not None:
+        with open(input, "rb") as input_file:
+            etl_reader = build_from_stream(input_file.read())
+            etl_reader.parse(logger)
+    
+        with open(output, "w", encoding='utf-8') as output_file:
+            output_file.write(prettify(logger.xml_document))
 
 
 if __name__ == "__main__":
@@ -240,13 +247,21 @@ if __name__ == "__main__":
     This is made with love by Airbus CERT Team.
     """)
 
-    parser.add_argument("--input", "-i",
-                        help="Input ETL file",
-                        type=str, default="", required=True)
-
-    parser.add_argument("--output", "-o",
-                        help="output xml path",
-                        type=str, default="", required=True)
+    parser.add_argument("etlfile",
+                        help="Path of input ETL file",
+                        nargs=1,
+                        type=str)
+    parser.add_argument( "-o", "--output",
+                        help="Path of output XML file",
+                        type=str, default=None, required=False)
 
     args = parser.parse_args()
-    main(**vars(args))
+    etlfile = args.etlfile[0]
+    if not os.path.isfile(etlfile):
+        sys.exit("No ETL file specified or file does not exist.")
+
+    xmlfile = args.output
+    if not xmlfile:
+        xmlfile = os.path.join(os.path.dirname(etlfile), os.path.basename(etlfile).replace(".etl", '') + ".xml")
+        print(f"Output file: {xmlfile}")
+    main(etlfile, xmlfile)

@@ -3,7 +3,9 @@
 Microsoft-Windows-Kernel-Network
 GUID : 7dd42a49-5329-4832-8dfd-43d979153a88
 """
-from construct import Int8sl, Int8ul, Int16ul, Int16sl, Int32sl, Int32ul, Int64sl, Int64ul, Bytes, Double, Float32l, Struct
+from construct import Int8sl, Int8ul, Int16ul, Int16sl, Int32sl, Int32ul, \
+                      Int64sl, Int64ul, Bytes, Double, Float32l, Struct, \
+                      Computed
 from etl.utils import WString, CString, SystemTime, Guid
 from etl.dtyp import Sid
 from etl.parsers.etw.core import Etw, declare, guid
@@ -12,6 +14,7 @@ from etl.parsers.etw.core import Etw, declare, guid
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=10, version=0)
 class Microsoft_Windows_Kernel_Network_10_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataSent"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -28,6 +31,7 @@ class Microsoft_Windows_Kernel_Network_10_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=11, version=0)
 class Microsoft_Windows_Kernel_Network_11_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataReceived"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -42,6 +46,7 @@ class Microsoft_Windows_Kernel_Network_11_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=12, version=0)
 class Microsoft_Windows_Kernel_Network_12_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ConnectionAttempted"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -63,6 +68,7 @@ class Microsoft_Windows_Kernel_Network_12_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=13, version=0)
 class Microsoft_Windows_Kernel_Network_13_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DisconnectIssued"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -77,6 +83,7 @@ class Microsoft_Windows_Kernel_Network_13_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=14, version=0)
 class Microsoft_Windows_Kernel_Network_14_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataRetransmitted"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -91,6 +98,7 @@ class Microsoft_Windows_Kernel_Network_14_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=15, version=0)
 class Microsoft_Windows_Kernel_Network_15_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ConnectionAccepted"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -112,6 +120,7 @@ class Microsoft_Windows_Kernel_Network_15_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=16, version=0)
 class Microsoft_Windows_Kernel_Network_16_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ReconnectAttempted"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -126,6 +135,7 @@ class Microsoft_Windows_Kernel_Network_16_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=17, version=0)
 class Microsoft_Windows_Kernel_Network_17_0(Etw):
     pattern = Struct(
+        "sname" / Computed("TCPConnectionAttemptFailed"),
         "Proto" / Int16ul,
         "FailureCode" / Int16ul
     )
@@ -134,6 +144,7 @@ class Microsoft_Windows_Kernel_Network_17_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=18, version=0)
 class Microsoft_Windows_Kernel_Network_18_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ProtocolCopiedDataOnBehalfOfUser"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -148,6 +159,7 @@ class Microsoft_Windows_Kernel_Network_18_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=26, version=0)
 class Microsoft_Windows_Kernel_Network_26_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataSent_26"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -162,6 +174,7 @@ class Microsoft_Windows_Kernel_Network_26_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=27, version=0)
 class Microsoft_Windows_Kernel_Network_27_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataReceived_27"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -174,6 +187,7 @@ class Microsoft_Windows_Kernel_Network_27_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=28, version=0)
 class Microsoft_Windows_Kernel_Network_28_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ConnectionAttempted_28"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -193,6 +207,7 @@ class Microsoft_Windows_Kernel_Network_28_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=29, version=0)
 class Microsoft_Windows_Kernel_Network_29_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DisconnectIssued_29"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -205,6 +220,7 @@ class Microsoft_Windows_Kernel_Network_29_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=30, version=0)
 class Microsoft_Windows_Kernel_Network_30_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataRetransmitted_30"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -217,6 +233,7 @@ class Microsoft_Windows_Kernel_Network_30_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=31, version=0)
 class Microsoft_Windows_Kernel_Network_31_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ConnectionAccepted_31"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -236,6 +253,7 @@ class Microsoft_Windows_Kernel_Network_31_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=32, version=0)
 class Microsoft_Windows_Kernel_Network_32_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ReconnectAttempted_32"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -248,6 +266,7 @@ class Microsoft_Windows_Kernel_Network_32_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=34, version=0)
 class Microsoft_Windows_Kernel_Network_34_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ProtocolCopiedDataOnBehalfOfUser_34"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -260,6 +279,7 @@ class Microsoft_Windows_Kernel_Network_34_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=42, version=0)
 class Microsoft_Windows_Kernel_Network_42_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataSentOverUDP"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -274,6 +294,7 @@ class Microsoft_Windows_Kernel_Network_42_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=43, version=0)
 class Microsoft_Windows_Kernel_Network_43_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataReceivedOverUDP"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "daddr" / Int32ul,
@@ -288,6 +309,7 @@ class Microsoft_Windows_Kernel_Network_43_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=49, version=0)
 class Microsoft_Windows_Kernel_Network_49_0(Etw):
     pattern = Struct(
+        "sname" / Computed("UDPConnectionAttemptFailed"),
         "Proto" / Int16ul,
         "FailureCode" / Int16ul
     )
@@ -296,6 +318,7 @@ class Microsoft_Windows_Kernel_Network_49_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=58, version=0)
 class Microsoft_Windows_Kernel_Network_58_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataSentOverUDP_58"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,
@@ -308,6 +331,7 @@ class Microsoft_Windows_Kernel_Network_58_0(Etw):
 @declare(guid=guid("7dd42a49-5329-4832-8dfd-43d979153a88"), event_id=59, version=0)
 class Microsoft_Windows_Kernel_Network_59_0(Etw):
     pattern = Struct(
+        "sname" / Computed("DataReceivedOverUDP_59"),
         "PID" / Int32ul,
         "size" / Int32ul,
         "dport" / Int16ul,

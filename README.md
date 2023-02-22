@@ -20,7 +20,7 @@ What is `ETL` and why is it a pain to work with? Consider `ETL` as a container, 
 The first script, `etl2xml` transforms all known ETL events into XML:
 
 ```
-etl2xml -i example.etl -o example.xml
+etl2xml example.etl -o example.xml
 ```
 
 The second script, `etl2pcap` transforms network captures created through `netsh` into the `pcap` file format:
@@ -29,7 +29,7 @@ The second script, `etl2pcap` transforms network captures created through `netsh
 netsh start trace capture=yes
 netsh stop trace
 
-etl2pcap -i NetTrace.etl -o NetTrace.pcap
+etl2pcap NetTrace.etl -o NetTrace.pcap
 ```
 
 You can also use `etl-parser` as a library:
@@ -74,7 +74,7 @@ with open("example.etl", "rb") as etl_file:
 `etl-parser` is available from pip:
 
 ```
-pip install etl-parser
+pip install --user etl-parser
 ```
 
 Alternatively, you can install `etl-parser` using `setup.py`:

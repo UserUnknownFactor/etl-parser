@@ -3,7 +3,9 @@
 Microsoft-Windows-Kernel-Process
 GUID : 22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716
 """
-from construct import Int8sl, Int8ul, Int16ul, Int16sl, Int32sl, Int32ul, Int64sl, Int64ul, Bytes, Double, Float32l, Struct
+from construct import Int8sl, Int8ul, Int16ul, Int16sl, Int32sl, Int32ul, \
+                      Int64sl, Int64ul, Bytes, Double, Float32l, Struct, \
+                      Computed
 from etl.utils import WString, CString, SystemTime, Guid
 from etl.dtyp import Sid
 from etl.parsers.etw.core import Etw, declare, guid
@@ -12,6 +14,7 @@ from etl.parsers.etw.core import Etw, declare, guid
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=1, version=0)
 class Microsoft_Windows_Kernel_Process_1_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessStart_v0"),
         "ProcessID" / Int32ul,
         "CreateTime" / Int64ul,
         "ParentProcessID" / Int32ul,
@@ -23,6 +26,7 @@ class Microsoft_Windows_Kernel_Process_1_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=1, version=1)
 class Microsoft_Windows_Kernel_Process_1_1(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessStart_v1"),
         "ProcessID" / Int32ul,
         "CreateTime" / Int64ul,
         "ParentProcessID" / Int32ul,
@@ -35,6 +39,7 @@ class Microsoft_Windows_Kernel_Process_1_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=1, version=2)
 class Microsoft_Windows_Kernel_Process_1_2(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessStart_v2"),
         "ProcessID" / Int32ul,
         "CreateTime" / Int64ul,
         "ParentProcessID" / Int32ul,
@@ -51,6 +56,7 @@ class Microsoft_Windows_Kernel_Process_1_2(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=1, version=3)
 class Microsoft_Windows_Kernel_Process_1_3(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessStart_v3"),
         "ProcessID" / Int32ul,
         "ProcessSequenceNumber" / Int64ul,
         "CreateTime" / Int64ul,
@@ -72,6 +78,7 @@ class Microsoft_Windows_Kernel_Process_1_3(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=2, version=0)
 class Microsoft_Windows_Kernel_Process_2_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessStop_v0"),
         "ProcessID" / Int32ul,
         "CreateTime" / Int64ul,
         "ExitTime" / Int64ul,
@@ -87,6 +94,7 @@ class Microsoft_Windows_Kernel_Process_2_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=2, version=1)
 class Microsoft_Windows_Kernel_Process_2_1(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessStop_v1"),
         "ProcessID" / Int32ul,
         "CreateTime" / Int64ul,
         "ExitTime" / Int64ul,
@@ -108,6 +116,7 @@ class Microsoft_Windows_Kernel_Process_2_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=2, version=2)
 class Microsoft_Windows_Kernel_Process_2_2(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessStop_v2"),
         "ProcessID" / Int32ul,
         "ProcessSequenceNumber" / Int64ul,
         "CreateTime" / Int64ul,
@@ -130,6 +139,7 @@ class Microsoft_Windows_Kernel_Process_2_2(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=3, version=0)
 class Microsoft_Windows_Kernel_Process_3_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ThreadStart_v0"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "StackBase" / Int64ul,
@@ -145,6 +155,7 @@ class Microsoft_Windows_Kernel_Process_3_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=3, version=1)
 class Microsoft_Windows_Kernel_Process_3_1(Etw):
     pattern = Struct(
+        "sname" / Computed("ThreadStart_v1"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "StackBase" / Int64ul,
@@ -161,6 +172,7 @@ class Microsoft_Windows_Kernel_Process_3_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=4, version=0)
 class Microsoft_Windows_Kernel_Process_4_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ThreadStop_v0"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "StackBase" / Int64ul,
@@ -176,6 +188,7 @@ class Microsoft_Windows_Kernel_Process_4_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=4, version=1)
 class Microsoft_Windows_Kernel_Process_4_1(Etw):
     pattern = Struct(
+        "sname" / Computed("ThreadStop_v1"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "StackBase" / Int64ul,
@@ -193,6 +206,7 @@ class Microsoft_Windows_Kernel_Process_4_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=5, version=0)
 class Microsoft_Windows_Kernel_Process_5_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ImageLoad"),
         "ImageBase" / Int64ul,
         "ImageSize" / Int64ul,
         "ProcessID" / Int32ul,
@@ -206,6 +220,7 @@ class Microsoft_Windows_Kernel_Process_5_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=6, version=0)
 class Microsoft_Windows_Kernel_Process_6_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ImageUnLoad"),
         "ImageBase" / Int64ul,
         "ImageSize" / Int64ul,
         "ProcessID" / Int32ul,
@@ -219,6 +234,7 @@ class Microsoft_Windows_Kernel_Process_6_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=7, version=0)
 class Microsoft_Windows_Kernel_Process_7_0(Etw):
     pattern = Struct(
+        "sname" / Computed("CpuBasePriorityChange"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "OldPriority" / Int8ul,
@@ -229,6 +245,7 @@ class Microsoft_Windows_Kernel_Process_7_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=8, version=0)
 class Microsoft_Windows_Kernel_Process_8_0(Etw):
     pattern = Struct(
+        "sname" / Computed("CpuPriorityChange"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "OldPriority" / Int8ul,
@@ -239,6 +256,7 @@ class Microsoft_Windows_Kernel_Process_8_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=9, version=0)
 class Microsoft_Windows_Kernel_Process_9_0(Etw):
     pattern = Struct(
+        "sname" / Computed("PagePriorityChange"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "OldPriority" / Int8ul,
@@ -249,6 +267,7 @@ class Microsoft_Windows_Kernel_Process_9_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=10, version=0)
 class Microsoft_Windows_Kernel_Process_10_0(Etw):
     pattern = Struct(
+        "sname" / Computed("IoPriorityChange"),
         "ProcessID" / Int32ul,
         "ThreadID" / Int32ul,
         "OldPriority" / Int8ul,
@@ -259,6 +278,7 @@ class Microsoft_Windows_Kernel_Process_10_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=11, version=0)
 class Microsoft_Windows_Kernel_Process_11_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessFreezeStart_v0"),
         "FrozenProcessID" / Int32ul
     )
 
@@ -266,6 +286,7 @@ class Microsoft_Windows_Kernel_Process_11_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=11, version=1)
 class Microsoft_Windows_Kernel_Process_11_1(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessFreezeStart_v1"),
         "FrozenProcessID" / Int32ul,
         "CreateTime" / Int64ul
     )
@@ -274,6 +295,7 @@ class Microsoft_Windows_Kernel_Process_11_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=12, version=0)
 class Microsoft_Windows_Kernel_Process_12_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessFreezeStop_v0"),
         "FrozenProcessID" / Int32ul
     )
 
@@ -281,6 +303,7 @@ class Microsoft_Windows_Kernel_Process_12_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=12, version=1)
 class Microsoft_Windows_Kernel_Process_12_1(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessFreezeStop_v1"),
         "FrozenProcessID" / Int32ul,
         "CreateTime" / Int64ul
     )
@@ -289,6 +312,7 @@ class Microsoft_Windows_Kernel_Process_12_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=13, version=0)
 class Microsoft_Windows_Kernel_Process_13_0(Etw):
     pattern = Struct(
+        "sname" / Computed("JobStart"),
         "ContainerID" / Guid,
         "JobID" / Int32ul,
         "StatusCode" / Int32ul
@@ -298,6 +322,7 @@ class Microsoft_Windows_Kernel_Process_13_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=14, version=0)
 class Microsoft_Windows_Kernel_Process_14_0(Etw):
     pattern = Struct(
+        "sname" / Computed("JobTerminateStop"),
         "ContainerID" / Guid,
         "JobID" / Int32ul,
         "StatusCode" / Int32ul
@@ -307,6 +332,7 @@ class Microsoft_Windows_Kernel_Process_14_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=15, version=0)
 class Microsoft_Windows_Kernel_Process_15_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessRundown_v0"),
         "ProcessID" / Int32ul,
         "CreateTime" / Int64ul,
         "ParentProcessID" / Int32ul,
@@ -323,6 +349,7 @@ class Microsoft_Windows_Kernel_Process_15_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=15, version=1)
 class Microsoft_Windows_Kernel_Process_15_1(Etw):
     pattern = Struct(
+        "sname" / Computed("ProcessRundown_v1"),
         "ProcessID" / Int32ul,
         "ProcessSequenceNumber" / Int64ul,
         "CreateTime" / Int64ul,
@@ -340,10 +367,16 @@ class Microsoft_Windows_Kernel_Process_15_1(Etw):
         "PackageRelativeAppId" / WString
     )
 
+@declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=16, version=0)
+class Microsoft_Windows_Kernel_Process_16_0(Etw):
+    pattern = Struct(
+        "sname" / Computed("task0")
+    )
 
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=17, version=0)
 class Microsoft_Windows_Kernel_Process_17_0(Etw):
     pattern = Struct(
+        "sname" / Computed("PsDiskIoAttributionStart"),
         "JobID" / Int32ul,
         "DiskIoAttribution" / Int64ul,
         "StatusCode" / Int32ul
@@ -353,6 +386,7 @@ class Microsoft_Windows_Kernel_Process_17_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=18, version=0)
 class Microsoft_Windows_Kernel_Process_18_0(Etw):
     pattern = Struct(
+        "sname" / Computed("PsDiskIoAttributionStop"),
         "JobID" / Int32ul,
         "DiskIoAttribution" / Int64ul,
         "StatusCode" / Int32ul
@@ -362,6 +396,7 @@ class Microsoft_Windows_Kernel_Process_18_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=19, version=0)
 class Microsoft_Windows_Kernel_Process_19_0(Etw):
     pattern = Struct(
+        "sname" / Computed("PsIoRateControlStart_v0"),
         "JobID" / Int32ul,
         "IoRateControl" / Int64ul,
         "ControlType" / Int32ul,
@@ -374,6 +409,7 @@ class Microsoft_Windows_Kernel_Process_19_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=19, version=1)
 class Microsoft_Windows_Kernel_Process_19_1(Etw):
     pattern = Struct(
+        "sname" / Computed("PsIoRateControlStart_v1"),
         "JobID" / Int32ul,
         "IoRateControl" / Int64ul,
         "MaxIops" / Int64ul,
@@ -394,6 +430,7 @@ class Microsoft_Windows_Kernel_Process_19_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=19, version=2)
 class Microsoft_Windows_Kernel_Process_19_2(Etw):
     pattern = Struct(
+        "sname" / Computed("PsIoRateControlStart_v2"),
         "JobID" / Int32ul,
         "IoRateControl" / Int64ul,
         "MaxIops" / Int64ul,
@@ -417,6 +454,7 @@ class Microsoft_Windows_Kernel_Process_19_2(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=20, version=0)
 class Microsoft_Windows_Kernel_Process_20_0(Etw):
     pattern = Struct(
+        "sname" / Computed("PsIoRateControlStop_v0"),
         "JobID" / Int32ul,
         "IoRateControl" / Int64ul,
         "ControlType" / Int32ul,
@@ -429,6 +467,7 @@ class Microsoft_Windows_Kernel_Process_20_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=20, version=1)
 class Microsoft_Windows_Kernel_Process_20_1(Etw):
     pattern = Struct(
+        "sname" / Computed("PsIoRateControlStop_v1"),    
         "JobID" / Int32ul,
         "IoRateControl" / Int64ul,
         "MaxIops" / Int64ul,
@@ -449,6 +488,7 @@ class Microsoft_Windows_Kernel_Process_20_1(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=20, version=2)
 class Microsoft_Windows_Kernel_Process_20_2(Etw):
     pattern = Struct(
+        "sname" / Computed("PsIoRateControlStop_v2"),
         "JobID" / Int32ul,
         "IoRateControl" / Int64ul,
         "MaxIops" / Int64ul,
@@ -472,6 +512,7 @@ class Microsoft_Windows_Kernel_Process_20_2(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=21, version=0)
 class Microsoft_Windows_Kernel_Process_21_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ThreadWorkOnBehalfUpdate"),
         "OldWorkOnBehalfThreadID" / Int32ul,
         "NewWorkOnBehalfThreadID" / Int32ul
     )
@@ -480,6 +521,7 @@ class Microsoft_Windows_Kernel_Process_21_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=22, version=0)
 class Microsoft_Windows_Kernel_Process_22_0(Etw):
     pattern = Struct(
+        "sname" / Computed("JobServerSiloStateChange"),
         "ContainerID" / Guid,
         "JobID" / Int32ul,
         "State" / Int16ul
@@ -489,6 +531,7 @@ class Microsoft_Windows_Kernel_Process_22_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=23, version=0)
 class Microsoft_Windows_Kernel_Process_23_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ServerSiloCreateCallbackStart"),
         "ContainerID" / Guid,
         "JobID" / Int32ul,
         "MonitorName" / WString
@@ -498,6 +541,7 @@ class Microsoft_Windows_Kernel_Process_23_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=24, version=0)
 class Microsoft_Windows_Kernel_Process_24_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ServerSiloCreateCallbackStop"),
         "ContainerID" / Guid,
         "JobID" / Int32ul,
         "Status" / Int32ul,
@@ -508,6 +552,7 @@ class Microsoft_Windows_Kernel_Process_24_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=25, version=0)
 class Microsoft_Windows_Kernel_Process_25_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ServerSiloTerminateCallbackStart"),
         "ContainerID" / Guid,
         "JobID" / Int32ul,
         "MonitorName" / WString
@@ -517,8 +562,16 @@ class Microsoft_Windows_Kernel_Process_25_0(Etw):
 @declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=26, version=0)
 class Microsoft_Windows_Kernel_Process_26_0(Etw):
     pattern = Struct(
+        "sname" / Computed("ServerSiloTerminateCallbackStop"),
         "ContainerID" / Guid,
         "JobID" / Int32ul,
         "MonitorName" / WString
     )
 
+@declare(guid=guid("22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716"), event_id=27, version=0)
+class Microsoft_Windows_Kernel_Process_27_0(Etw):
+    pattern = Struct(
+        "sname" / Computed("ProcessInPrivateSet"),
+        "ProcessName" / WString,
+        "ProcessID" / Int32ul
+    )

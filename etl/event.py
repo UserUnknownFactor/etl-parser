@@ -3,7 +3,7 @@
 Parse an event record
 :see: https://docs.microsoft.com/fr-fr/windows/desktop/api/evntcons/ns-evntcons-_event_record
 """
-
+import datetime
 from construct import Struct, Int16ul, Enum, Int32ul, Int64ul, FlagsEnum, Int8ul, Bytes, Aligned, RepeatUntil, Computed, \
     AlignedStruct, If
 
@@ -108,6 +108,15 @@ class Event:
         :return: Timestamp associated with this event
         """
         return self.source.event_header.timestamp
+        
+    def get_utc_timestamp(self) -> str:
+        """
+        :return: UTC Timestamp associated with this event
+        """
+        seconds, microseconds = divmod(self.source.event_header.timestamp, 1000000)
+        days, seconds = divmod(seconds, 86400)
+        dt = datetime.datetime(1601, 1, 1) + datetime.timedelta(days, seconds, microseconds)
+        return dt.utcnow().isoformat(sep=' ', timespec='milliseconds')
 
     def parse_etw(self) -> Etw:
         """
@@ -115,8 +124,10 @@ class Event:
         :return: If known build associate Etw class
         :raise: GuidNotFound, EventIdNotFound, EtwVersionNotFound
         """
-        guid = EtwGuid(self.source.event_header.provider_id.data1, self.source.event_header.provider_id.data2,
-                    self.source.event_header.provider_id.data3, self.source.event_header.provider_id.data4)
+        guid = EtwGuid(self.source.event_header.provider_id._inner.data1,
+                       self.source.event_header.provider_id._inner.data2,
+                       self.source.event_header.provider_id._inner.data3,
+                       self.source.event_header.provider_id._inner.data4)
         event_id = self.source.event_header.event_descriptor.Id
         version = self.source.event_header.event_descriptor.Version
         user_data = self.source.user_data
